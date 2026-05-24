@@ -1,0 +1,2079 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sentelligence — Arnav Shukla</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Serif+Display:ital@0;1&display=swap"
+    rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --black: #0a0a0a;
+      --white: #fafafa;
+      --off: #f2f2f0;
+      --mid: #8a8a8a;
+      --subtle: #d4d4d0;
+      --accent: #c8a96e;
+      --accent2: #4a90d9;
+      --danger: #e05252;
+      --green: #3aaa72;
+      --card-bg: #ffffff;
+      --border: rgba(0, 0, 0, 0.08);
+      --font-display: 'DM Serif Display', Georgia, serif;
+      --font-body: 'DM Sans', system-ui, sans-serif;
+      --r: 16px;
+      --r-sm: 10px;
+      --shadow: 0 2px 32px rgba(0, 0, 0, 0.07), 0 1px 4px rgba(0, 0, 0, 0.04);
+      --shadow-lg: 0 8px 64px rgba(0, 0, 0, 0.12), 0 2px 16px rgba(0, 0, 0, 0.06);
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--white);
+      color: var(--black);
+      overflow-x: hidden;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 48px;
+      background: rgba(250, 250, 250, 0.82);
+      backdrop-filter: blur(20px) saturate(1.8);
+      border-bottom: 0.5px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: var(--font-display);
+      font-size: 19px;
+      letter-spacing: -0.01em;
+      color: var(--black);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 13px;
+      color: var(--mid);
+      text-decoration: none;
+      letter-spacing: 0.01em;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--black);
+    }
+
+    .nav-cta {
+      font-size: 12px;
+      font-weight: 500;
+      background: var(--black);
+      color: var(--white);
+      padding: 7px 18px;
+      border-radius: 999px;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.1s;
+    }
+
+    .nav-cta:hover {
+      background: #2a2a2a;
+      transform: scale(1.02);
+    }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 120px 24px 80px;
+      background: var(--black);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-grid {
+      position: absolute;
+      inset: 0;
+      background-image: linear-gradient(rgba(200, 169, 110, 0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(200, 169, 110, 0.06) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, black 30%, transparent 100%);
+    }
+
+    .hero-glow {
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(200, 169, 110, 0.12) 0%, transparent 70%);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -55%);
+      pointer-events: none;
+    }
+
+    .hero-eyebrow {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      animation: fadeUp 0.8s ease both;
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(52px, 7vw, 92px);
+      line-height: 1.0;
+      color: var(--white);
+      letter-spacing: -0.02em;
+      max-width: 800px;
+      animation: fadeUp 0.9s 0.1s ease both;
+    }
+
+    .hero-title em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    .hero-sub {
+      font-size: 17px;
+      color: rgba(250, 250, 250, 0.5);
+      font-weight: 300;
+      max-width: 520px;
+      line-height: 1.6;
+      margin-top: 20px;
+      animation: fadeUp 1s 0.2s ease both;
+    }
+
+    .hero-pills {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 36px;
+      animation: fadeUp 1s 0.3s ease both;
+    }
+
+    .pill {
+      font-size: 12px;
+      padding: 6px 16px;
+      border-radius: 999px;
+      border: 0.5px solid rgba(200, 169, 110, 0.3);
+      color: rgba(250, 250, 250, 0.6);
+      background: rgba(200, 169, 110, 0.06);
+      letter-spacing: 0.02em;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 60px;
+      margin-top: 72px;
+      animation: fadeUp 1s 0.45s ease both;
+    }
+
+    .hstat {
+      text-align: center;
+    }
+
+    .hstat-val {
+      font-family: var(--font-display);
+      font-size: 42px;
+      color: var(--white);
+      line-height: 1;
+      letter-spacing: -0.02em;
+    }
+
+    .hstat-val span {
+      font-size: 20px;
+      color: var(--accent);
+    }
+
+    .hstat-label {
+      font-size: 12px;
+      color: rgba(250, 250, 250, 0.4);
+      margin-top: 6px;
+      letter-spacing: 0.04em;
+    }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      color: rgba(250, 250, 250, 0.3);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      animation: fadeIn 1s 1.2s ease both;
+    }
+
+    .scroll-line {
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(to bottom, rgba(250, 250, 250, 0.3), transparent);
+      animation: scrollAnim 2s 1.5s ease-in-out infinite;
+    }
+
+    @keyframes scrollAnim {
+
+      0%,
+      100% {
+        opacity: 1;
+        transform: scaleY(1) translateY(0)
+      }
+
+      50% {
+        opacity: 0.4;
+        transform: scaleY(0.6) translateY(8px)
+      }
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(24px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    /* SECTIONS */
+    section {
+      padding: 100px 24px;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(36px, 4.5vw, 56px);
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      color: var(--black);
+    }
+
+    .section-title em {
+      font-style: italic;
+    }
+
+    .section-sub {
+      font-size: 17px;
+      color: var(--mid);
+      font-weight: 300;
+      line-height: 1.65;
+      max-width: 560px;
+      margin-top: 14px;
+    }
+
+    /* PIPELINE */
+    #pipeline {
+      background: var(--black);
+      color: var(--white);
+    }
+
+    #pipeline .section-title {
+      color: var(--white);
+    }
+
+    #pipeline .section-sub {
+      color: rgba(255, 255, 255, 0.45);
+    }
+
+    .pipeline-flow {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 0;
+      margin-top: 60px;
+      border: 0.5px solid rgba(255, 255, 255, 0.1);
+      border-radius: var(--r);
+      overflow: hidden;
+    }
+
+    .p-step {
+      padding: 36px 24px;
+      border-right: 0.5px solid rgba(255, 255, 255, 0.1);
+      transition: background 0.3s;
+    }
+
+    .p-step:last-child {
+      border-right: none;
+    }
+
+    .p-step:hover {
+      background: rgba(200, 169, 110, 0.06);
+    }
+
+    .p-step-tag {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+      padding: 3px 10px;
+      border-radius: 999px;
+      display: inline-block;
+    }
+
+    .tag-bronze {
+      background: rgba(200, 169, 110, 0.15);
+      color: var(--accent);
+    }
+
+    .tag-silver {
+      background: rgba(180, 180, 180, 0.15);
+      color: #ccc;
+    }
+
+    .tag-gold {
+      background: rgba(255, 180, 50, 0.15);
+      color: #f0b444;
+    }
+
+    .tag-viz {
+      background: rgba(74, 144, 217, 0.15);
+      color: #7eb8f0;
+    }
+
+    .p-step-num {
+      font-family: var(--font-display);
+      font-size: 48px;
+      color: rgba(255, 255, 255, 0.06);
+      line-height: 1;
+      margin-bottom: 10px;
+    }
+
+    .p-step-name {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--white);
+      margin-bottom: 8px;
+    }
+
+    .p-step-desc {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.4);
+      line-height: 1.55;
+    }
+
+    .p-step-items {
+      margin-top: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .p-item {
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.35);
+      padding-left: 12px;
+      position: relative;
+    }
+
+    .p-item::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 5px;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: rgba(200, 169, 110, 0.5);
+    }
+
+    /* SPARK CONFIG */
+    .spark-config {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-top: 40px;
+    }
+
+    .sc-item {
+      background: rgba(255, 255, 255, 0.04);
+      border: 0.5px solid rgba(255, 255, 255, 0.08);
+      border-radius: var(--r-sm);
+      padding: 16px 18px;
+    }
+
+    .sc-key {
+      font-size: 10px;
+      color: rgba(255, 255, 255, 0.35);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-family: 'Courier New', monospace;
+    }
+
+    .sc-val {
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--white);
+      margin-top: 4px;
+      font-family: 'Courier New', monospace;
+    }
+
+    /* DATASETS */
+    #datasets {
+      background: var(--off);
+    }
+
+    .datasets-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-top: 60px;
+    }
+
+    .ds-card {
+      background: var(--card-bg);
+      border-radius: var(--r);
+      padding: 36px 32px;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .ds-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .ds-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+    }
+
+    .ds-amazon::before {
+      background: linear-gradient(90deg, #FF9900, #ffb84d);
+    }
+
+    .ds-twitter::before {
+      background: linear-gradient(90deg, #1DA1F2, #5cc2f7);
+    }
+
+    .ds-financial::before {
+      background: linear-gradient(90deg, #3aaa72, #6dcca0);
+    }
+
+    .ds-icon {
+      font-size: 36px;
+      margin-bottom: 20px;
+    }
+
+    .ds-source {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--mid);
+      margin-bottom: 8px;
+    }
+
+    .ds-name {
+      font-family: var(--font-display);
+      font-size: 24px;
+      letter-spacing: -0.01em;
+      margin-bottom: 12px;
+    }
+
+    .ds-count {
+      font-size: 38px;
+      font-weight: 300;
+      letter-spacing: -0.02em;
+      line-height: 1;
+    }
+
+    .ds-count-label {
+      font-size: 12px;
+      color: var(--mid);
+      margin-top: 4px;
+      margin-bottom: 20px;
+    }
+
+    .ds-rules {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .ds-rule {
+      font-size: 12px;
+      color: #555;
+      padding: 7px 12px;
+      background: var(--off);
+      border-radius: var(--r-sm);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .ds-rule-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    /* MODELS */
+    #models {
+      background: var(--white);
+    }
+
+    .models-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: start;
+      margin-top: 60px;
+    }
+
+    .model-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .model-item {
+      background: var(--off);
+      border-radius: var(--r);
+      padding: 20px 24px;
+      cursor: pointer;
+      transition: all 0.25s;
+      border: 1.5px solid transparent;
+    }
+
+    .model-item:hover,
+    .model-item.active {
+      background: var(--card-bg);
+      box-shadow: var(--shadow);
+      border-color: var(--subtle);
+    }
+
+    .model-item.active {
+      border-color: var(--accent);
+    }
+
+    .mi-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+
+    .mi-name {
+      font-size: 15px;
+      font-weight: 500;
+    }
+
+    .mi-type {
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-weight: 500;
+    }
+
+    .mi-scores {
+      display: flex;
+      gap: 20px;
+    }
+
+    .mi-score-val {
+      font-size: 20px;
+      font-weight: 300;
+      letter-spacing: -0.02em;
+    }
+
+    .mi-score-label {
+      font-size: 10px;
+      color: var(--mid);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .mi-bar {
+      height: 3px;
+      background: var(--subtle);
+      border-radius: 2px;
+      margin-top: 12px;
+      overflow: hidden;
+    }
+
+    .mi-bar-fill {
+      height: 100%;
+      border-radius: 2px;
+    }
+
+    .models-chart-panel {
+      background: var(--off);
+      border-radius: var(--r);
+      padding: 32px;
+      position: sticky;
+      top: 80px;
+    }
+
+    .mcp-title {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--mid);
+      margin-bottom: 24px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .chart-wrap {
+      position: relative;
+      height: 280px;
+    }
+
+    .ensemble-note {
+      margin-top: 20px;
+      background: var(--card-bg);
+      border-radius: var(--r-sm);
+      padding: 14px 16px;
+      font-size: 12px;
+      color: #555;
+      line-height: 1.6;
+      border-left: 3px solid var(--accent);
+    }
+
+    /* LSTM */
+    #lstm {
+      background: var(--black);
+      color: var(--white);
+    }
+
+    #lstm .section-title {
+      color: var(--white);
+    }
+
+    #lstm .section-sub {
+      color: rgba(255, 255, 255, 0.45);
+    }
+
+    .lstm-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: center;
+      margin-top: 60px;
+    }
+
+    .lstm-arch {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .lstm-layer {
+      border-radius: var(--r-sm);
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: transform 0.2s;
+    }
+
+    .lstm-layer:hover {
+      transform: translateX(6px);
+    }
+
+    .ll-name {
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .ll-dim {
+      font-size: 12px;
+      opacity: 0.6;
+    }
+
+    .ll-embed {
+      background: rgba(200, 169, 110, 0.15);
+    }
+
+    .ll-bilstm {
+      background: rgba(126, 110, 255, 0.15);
+    }
+
+    .ll-drop {
+      background: rgba(180, 180, 180, 0.08);
+    }
+
+    .ll-dense {
+      background: rgba(74, 144, 217, 0.15);
+    }
+
+    .ll-out {
+      background: rgba(58, 170, 114, 0.15);
+    }
+
+    .lstm-arrow-down {
+      text-align: center;
+      color: rgba(255, 255, 255, 0.2);
+      font-size: 18px;
+      margin: 2px 0;
+    }
+
+    .lstm-metrics {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .lstm-metric-row {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .lmr-label {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.4);
+      width: 80px;
+      flex-shrink: 0;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .lmr-track {
+      flex: 1;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .lmr-fill {
+      height: 100%;
+      border-radius: 2px;
+    }
+
+    .lmr-val {
+      font-size: 14px;
+      font-weight: 500;
+      width: 52px;
+      text-align: right;
+      color: var(--white);
+    }
+
+    .lstm-config {
+      margin-top: 36px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .lc-item {
+      background: rgba(255, 255, 255, 0.04);
+      border-radius: var(--r-sm);
+      padding: 14px 16px;
+      border: 0.5px solid rgba(255, 255, 255, 0.07);
+    }
+
+    .lc-key {
+      font-size: 10px;
+      color: rgba(255, 255, 255, 0.35);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .lc-val {
+      font-size: 17px;
+      font-weight: 500;
+      color: var(--white);
+      margin-top: 2px;
+      font-family: 'Courier New', monospace;
+    }
+
+    .lstm-callbacks {
+      margin-top: 16px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 0.5px solid rgba(255, 255, 255, 0.08);
+      border-radius: var(--r-sm);
+      padding: 14px 16px;
+    }
+
+    .lcb-label {
+      font-size: 10px;
+      color: rgba(255, 255, 255, 0.35);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 8px;
+    }
+
+    .lcb-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .lcb-item {
+      font-size: 11px;
+      font-family: 'Courier New', monospace;
+      color: rgba(255, 255, 255, 0.55);
+      background: rgba(255, 255, 255, 0.05);
+      padding: 4px 10px;
+      border-radius: 6px;
+    }
+
+    /* SHOCKS */
+    #shocks {
+      background: var(--off);
+    }
+
+    .shocks-layout {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 48px;
+      align-items: start;
+      margin-top: 60px;
+    }
+
+    .shock-param {
+      background: var(--card-bg);
+      border-radius: var(--r);
+      padding: 24px 28px;
+      box-shadow: var(--shadow);
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 16px;
+    }
+
+    .sp-num {
+      font-family: var(--font-display);
+      font-size: 48px;
+      letter-spacing: -0.02em;
+    }
+
+    .sp-name {
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .sp-desc {
+      font-size: 12px;
+      color: var(--mid);
+      margin-top: 3px;
+      line-height: 1.5;
+    }
+
+    .shock-chart-panel {
+      background: var(--card-bg);
+      border-radius: var(--r);
+      padding: 28px;
+      box-shadow: var(--shadow);
+    }
+
+    .scp-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 24px;
+    }
+
+    .scp-tab {
+      font-size: 12px;
+      padding: 6px 16px;
+      border-radius: 999px;
+      border: 1px solid var(--subtle);
+      background: transparent;
+      color: var(--mid);
+      cursor: pointer;
+      font-family: var(--font-body);
+      transition: all 0.2s;
+    }
+
+    .scp-tab.active {
+      background: var(--black);
+      color: var(--white);
+      border-color: var(--black);
+    }
+
+    .shock-chart-wrap {
+      position: relative;
+      height: 200px;
+    }
+
+    .shock-formula {
+      background: var(--card-bg);
+      border-radius: var(--r);
+      padding: 20px 24px;
+      box-shadow: var(--shadow);
+      margin-top: 0;
+    }
+
+    .sf-label {
+      font-size: 11px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--mid);
+      margin-bottom: 10px;
+    }
+
+    .sf-code {
+      font-family: 'Courier New', monospace;
+      font-size: 13px;
+      color: #333;
+      line-height: 1.9;
+      background: var(--off);
+      padding: 14px 16px;
+      border-radius: var(--r-sm);
+    }
+
+    /* SQL */
+    #sql {
+      background: var(--white);
+    }
+
+    .sql-tables-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 24px;
+      margin-bottom: 40px;
+    }
+
+    .sql-table-card {
+      background: var(--off);
+      border-radius: var(--r);
+      padding: 28px 24px;
+      text-align: center;
+      transition: all 0.25s;
+    }
+
+    .sql-table-card:hover {
+      background: var(--card-bg);
+      box-shadow: var(--shadow);
+    }
+
+    .stc-icon {
+      font-size: 32px;
+      margin-bottom: 12px;
+    }
+
+    .stc-name {
+      font-size: 14px;
+      font-weight: 500;
+      font-family: 'Courier New', monospace;
+      margin-bottom: 6px;
+    }
+
+    .stc-desc {
+      font-size: 12px;
+      color: var(--mid);
+      line-height: 1.5;
+    }
+
+    .sql-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .sql-card {
+      background: #0e0e0e;
+      border-radius: var(--r);
+      padding: 28px;
+      transition: transform 0.25s;
+    }
+
+    .sql-card:hover {
+      transform: translateY(-3px);
+    }
+
+    .sql-qnum {
+      font-size: 11px;
+      color: rgba(200, 169, 110, 0.7);
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .sql-qtitle {
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.8);
+      font-weight: 500;
+      margin-bottom: 16px;
+    }
+
+    .sql-code {
+      font-family: 'Courier New', monospace;
+      font-size: 12px;
+      line-height: 1.8;
+      color: rgba(255, 255, 255, 0.45);
+    }
+
+    .sql-kw {
+      color: #7eb8f0;
+    }
+
+    .sql-tbl {
+      color: #6dcca0;
+    }
+
+    .sql-str {
+      color: var(--accent);
+    }
+
+    /* OUTPUTS */
+    #outputs {
+      background: var(--black);
+      color: var(--white);
+    }
+
+    #outputs .section-title {
+      color: var(--white);
+    }
+
+    #outputs .section-sub {
+      color: rgba(255, 255, 255, 0.4);
+    }
+
+    .outputs-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      margin-top: 60px;
+    }
+
+    .output-card {
+      border: 0.5px solid rgba(255, 255, 255, 0.1);
+      border-radius: var(--r);
+      padding: 28px;
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+      transition: all 0.25s;
+    }
+
+    .output-card:hover {
+      background: rgba(255, 255, 255, 0.03);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .oc-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: var(--r-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 20px;
+    }
+
+    .oc-csv {
+      background: rgba(58, 170, 114, 0.15);
+    }
+
+    .oc-png {
+      background: rgba(74, 144, 217, 0.15);
+    }
+
+    .oc-name {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--white);
+      font-family: 'Courier New', monospace;
+      margin-bottom: 4px;
+    }
+
+    .oc-desc {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.4);
+      line-height: 1.5;
+    }
+
+    /* FOOTER */
+    footer {
+      background: var(--black);
+      padding: 40px 48px;
+      border-top: 0.5px solid rgba(255, 255, 255, 0.07);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .footer-left {
+      font-family: var(--font-display);
+      font-size: 22px;
+      color: var(--white);
+    }
+
+    .footer-right {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.3);
+      text-align: right;
+      line-height: 1.8;
+    }
+
+    /* REVEAL */
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal-delay-1 {
+      transition-delay: 0.1s;
+    }
+
+    .reveal-delay-2 {
+      transition-delay: 0.2s;
+    }
+
+    .reveal-delay-3 {
+      transition-delay: 0.3s;
+    }
+
+    .reveal-delay-4 {
+      transition-delay: 0.4s;
+    }
+
+    @media (max-width: 900px) {
+      nav {
+        padding: 0 20px;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .pipeline-flow,
+      .datasets-grid,
+      .models-layout,
+      .lstm-layout,
+      .shocks-layout,
+      .sql-grid,
+      .sql-tables-grid,
+      .outputs-grid,
+      .spark-config {
+        grid-template-columns: 1fr;
+      }
+
+      .p-step {
+        border-right: none;
+        border-bottom: 0.5px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .hero-stats {
+        gap: 32px;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .models-chart-panel {
+        position: static;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav>
+    <a class="nav-logo" href="#hero">Sentelligence</a>
+    <ul class="nav-links">
+      <li><a href="#pipeline">Pipeline</a></li>
+      <li><a href="#datasets">Data</a></li>
+      <li><a href="#models">Models</a></li>
+      <li><a href="#lstm">LSTM</a></li>
+      <li><a href="#shocks">Shocks</a></li>
+      <li><a href="#sql">SQL</a></li>
+    </ul>
+    <a class="nav-cta" href="#outputs">Outputs</a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="hero">
+    <div class="hero-grid"></div>
+    <div class="hero-glow"></div>
+    <h1 class="hero-title">Multi-Source<br><em>Sentiment</em><br>Intelligence</h1>
+    <p class="hero-sub">Shock detection across Amazon, Twitter &amp; Financial news — powered by PySpark, four Spark ML
+      models, a BiLSTM deep learning network, and Hive-compatible Spark SQL.</p>
+    <div class="hero-pills">
+      <span class="pill">PySpark · Hive Support</span>
+      <span class="pill">TF-IDF · 10K vocab</span>
+      <span class="pill">Bidirectional LSTM</span>
+      <span class="pill">Spark SQL (HiveQL)</span>
+      <span class="pill">Z-score Shock Detection</span>
+      <span class="pill">Tableau Export</span>
+      <span class="pill">Google Colab</span>
+    </div>
+    <div class="hero-stats">
+      <div class="hstat">
+        <div class="hstat-val">1.57<span>M</span></div>
+        <div class="hstat-label">Total Records</div>
+      </div>
+      <div class="hstat">
+        <div class="hstat-val">5</div>
+        <div class="hstat-label">ML Models</div>
+      </div>
+      <div class="hstat">
+        <div class="hstat-val">3</div>
+        <div class="hstat-label">Data Sources</div>
+      </div>
+      <div class="hstat">
+        <div class="hstat-val">6</div>
+        <div class="hstat-label">SQL Queries</div>
+      </div>
+    </div>
+    <div class="hero-scroll">
+      <span>SCROLL</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- PIPELINE -->
+  <section id="pipeline">
+    <div class="container">
+      <div class="reveal">
+        <div class="section-label">Architecture</div>
+      </div>
+      <div class="reveal reveal-delay-1">
+        <h2 class="section-title">Medallion<br><em>Data Pipeline</em></h2>
+      </div>
+      <div class="reveal reveal-delay-2">
+        <p class="section-sub">Raw CSV files are progressively refined through Bronze, Silver, and Gold layers before
+          final visualization export to Tableau.</p>
+      </div>
+      <div class="pipeline-flow reveal reveal-delay-3">
+        <div class="p-step">
+          <div class="p-step-tag tag-bronze">Bronze</div>
+          <div class="p-step-num">01</div>
+          <div class="p-step-name">Raw Storage</div>
+          <div class="p-step-desc">Google Drive as the bronze layer — original, untouched CSV files.</div>
+          <div class="p-step-items">
+            <div class="p-item">Reviews.csv (Amazon)</div>
+            <div class="p-item">training.1600000.processed.noemoticon.csv</div>
+            <div class="p-item">data.csv (Financial)</div>
+          </div>
+        </div>
+        <div class="p-step">
+          <div class="p-step-tag tag-silver">Silver</div>
+          <div class="p-step-num">02</div>
+          <div class="p-step-name">PySpark Clean</div>
+          <div class="p-step-desc">Text normalization, label encoding, TF-IDF feature engineering via Spark ML Pipeline.
+          </div>
+          <div class="p-step-items">
+            <div class="p-item">Lowercase + regex strip</div>
+            <div class="p-item">Tokenizer → StopWordsRemover</div>
+            <div class="p-item">CountVectorizer (10K, minDF=5)</div>
+            <div class="p-item">IDF → feature vectors</div>
+          </div>
+        </div>
+        <div class="p-step">
+          <div class="p-step-tag tag-gold">Gold A</div>
+          <div class="p-step-num">03</div>
+          <div class="p-step-name">ML Training</div>
+          <div class="p-step-desc">Four Spark ML classifiers + BiLSTM. 80/20 train-test split, seed=42.</div>
+          <div class="p-step-items">
+            <div class="p-item">Logistic Regression</div>
+            <div class="p-item">Naive Bayes (multinomial)</div>
+            <div class="p-item">SVM — LinearSVC</div>
+            <div class="p-item">Random Forest (20 trees)</div>
+            <div class="p-item">BiLSTM (TensorFlow)</div>
+          </div>
+        </div>
+        <div class="p-step">
+          <div class="p-step-tag tag-gold">Gold B</div>
+          <div class="p-step-num">04</div>
+          <div class="p-step-name">Shock Detect</div>
+          <div class="p-step-desc">Rolling Z-score anomaly detection on ensemble sentiment timeline per source.</div>
+          <div class="p-step-items">
+            <div class="p-item">Window size = 50</div>
+            <div class="p-item">Rolling window = 5</div>
+            <div class="p-item">Z threshold = 1.4</div>
+          </div>
+        </div>
+        <div class="p-step">
+          <div class="p-step-tag tag-viz">Viz</div>
+          <div class="p-step-num">05</div>
+          <div class="p-step-name">Export</div>
+          <div class="p-step-desc">4 Tableau-ready CSV files and 7 matplotlib chart PNGs saved to disk.</div>
+          <div class="p-step-items">
+            <div class="p-item">model_metrics.csv</div>
+            <div class="p-item">sentiment_predictions.csv</div>
+            <div class="p-item">shock_detection.csv</div>
+            <div class="p-item">7 chart PNGs</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="reveal reveal-delay-4" style="margin-top:32px;">
+        <div
+          style="font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.12em;color:rgba(255,255,255,0.3);margin-bottom:14px;">
+          Spark Session Config</div>
+        <div class="spark-config">
+          <div class="sc-item">
+            <div class="sc-key">appName</div>
+            <div class="sc-val" style="font-size:13px">MultiSource_Sentiment_Intelligence</div>
+          </div>
+          <div class="sc-item">
+            <div class="sc-key">driver.memory</div>
+            <div class="sc-val">4g</div>
+          </div>
+          <div class="sc-item">
+            <div class="sc-key">shuffle.partitions</div>
+            <div class="sc-val">8</div>
+          </div>
+          <div class="sc-item">
+            <div class="sc-key">Hive Support</div>
+            <div class="sc-val">Enabled</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DATASETS -->
+  <section id="datasets">
+    <div class="container">
+      <div class="reveal">
+        <div class="section-label">Bronze Layer</div>
+      </div>
+      <div class="reveal reveal-delay-1">
+        <h2 class="section-title">Three <em>Distinct</em><br>Data Sources</h2>
+      </div>
+      <div class="reveal reveal-delay-2">
+        <p class="section-sub">Consumer reviews, social media, and financial news — each with unique preprocessing rules
+          and label mapping strategies.</p>
+      </div>
+      <div class="datasets-grid">
+        <div class="ds-card ds-amazon reveal reveal-delay-1">
+          <div class="ds-icon">⭐</div>
+          <div class="ds-source">Dataset 1</div>
+          <div class="ds-name">Amazon Fine Food Reviews</div>
+          <div class="ds-count">~568K</div>
+          <div class="ds-count-label">records after filtering</div>
+          <ul class="ds-rules">
+            <li class="ds-rule"><span class="ds-rule-dot" style="background:#FF9900"></span>Score ≥ 4 → Positive (label
+              1)</li>
+            <li class="ds-rule"><span class="ds-rule-dot" style="background:#FF9900"></span>Score ≤ 2 → Negative (label
+              0)</li>
+            <li class="ds-rule"><span class="ds-rule-dot" style="background:#ccc"></span>Score = 3 dropped
+              (neutral/ambiguous)</li>
+            <li class="ds-rule"><span class="ds-rule-dot" style="background:#ccc"></span>HTML tags, URLs stripped;
+              length &gt; 10</li>
+            <li class="ds-rule"><span class="ds-rule-dot" style="background:#ccc"></span>multiLine=True, escape='"'</li>
+          </ul>
+        </div>
+        <div class="ds-card ds-twitter reveal reveal-delay-2">
+          <div class="ds-icon">🐦</div>
+          <div class="ds-source">Dataset 2</div>
+          <div class="ds-name">Twitter Sentiment140</div>
+          <div class="ds-count">200K</div>
+          <div class="ds-count-label">balanced (100K per class)</div>
+          <ul class="ds-rules">
+            <li class="ds-rule"><span class="ds-rule-dot" style="background:#1DA1F2"></span>Target 4 → Positive (label
+              1)</li>
+            <li class="ds-rule"><span class="ds-rule-dot" style="background:#1DA1F2"></span>Target 0 → Negative (label
+              0)</li>
+            <li class="ds-rule"><span class="ds-rule-dot" style="background:#ccc"></span>@mentions, #hashtags, URLs
+              removed</li>
+            <li class="ds-rule"><span class="ds-rule-dot" style="background:#ccc"></span>Cols: target, id, date, flag,
+              user, text</li>
+            <li class="ds-rule"><span class="ds-rule-dot" style="background:#ccc"></span>100K per class sampled for
+              balance</li>
+          </ul>
+        </div>
+        <div class="ds-card ds-financial reveal reveal-delay-3">
+          <div class="ds-icon">📈</div>
+          <div class="ds-source">Dataset 3</div>
+          <div class="ds-name">Financial Phrase Bank</div>
+          <div class="ds-count">~4.8K</div>
+          <div class="ds-count-label">domain-specific records</div>
+          <ul class="ds-rules">
+            <li class="ds-rule"><span class="ds-rule-dot" style="background:#3aaa72"></span>"positive" → label 1</li>
+            <li class="ds-rule"><span class="ds-rule-dot" style="background:#3aaa72"></span>"negative" → label 0</li>
+            <li class="ds-rule"><span class="ds-rule-dot" style="background:#ccc"></span>"neutral" dropped entirely</li>
+            <li class="ds-rule"><span class="ds-rule-dot" style="background:#ccc"></span>Columns: Sentence, Sentiment
+            </li>
+            <li class="ds-rule"><span class="ds-rule-dot" style="background:#ccc"></span>Financial domain vocabulary
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MODELS -->
+  <section id="models">
+    <div class="container">
+      <div class="reveal">
+        <div class="section-label">Gold Layer — Phase 3A</div>
+      </div>
+      <div class="reveal reveal-delay-1">
+        <h2 class="section-title">Four Spark Models<br><em>+ Ensemble Vote</em></h2>
+      </div>
+      <div class="reveal reveal-delay-2">
+        <p class="section-sub">Each model comes from a different ML family — Linear, Probabilistic, Margin-based, and
+          Ensemble. Majority vote (≥ 3 of 4) decides the final ensemble label.</p>
+      </div>
+      <div class="models-layout reveal reveal-delay-3">
+        <div class="model-list" id="modelList">
+          <div class="model-item active" onclick="selectModel(0)">
+            <div class="mi-header"><span class="mi-name">Logistic Regression</span><span class="mi-type"
+                style="background:#e8f3fc;color:#185FA5">Linear · maxIter=10</span></div>
+            <div class="mi-scores">
+              <div class="mi-score">
+                <div class="mi-score-val">—</div>
+                <div class="mi-score-label">Accuracy</div>
+              </div>
+              <div class="mi-score">
+                <div class="mi-score-val">—</div>
+                <div class="mi-score-label">F1-Score</div>
+              </div>
+            </div>
+            <div class="mi-bar">
+              <div class="mi-bar-fill" style="width:80%;background:#378ADD"></div>
+            </div>
+          </div>
+          <div class="model-item" onclick="selectModel(1)">
+            <div class="mi-header"><span class="mi-name">Naive Bayes</span><span class="mi-type"
+                style="background:#e6f7ee;color:#0F6E56">Probabilistic · multinomial</span></div>
+            <div class="mi-scores">
+              <div class="mi-score">
+                <div class="mi-score-val">—</div>
+                <div class="mi-score-label">Accuracy</div>
+              </div>
+              <div class="mi-score">
+                <div class="mi-score-val">—</div>
+                <div class="mi-score-label">F1-Score</div>
+              </div>
+            </div>
+            <div class="mi-bar">
+              <div class="mi-bar-fill" style="width:72%;background:#1D9E75"></div>
+            </div>
+          </div>
+          <div class="model-item" onclick="selectModel(2)">
+            <div class="mi-header"><span class="mi-name">SVM — LinearSVC</span><span class="mi-type"
+                style="background:#faece7;color:#993C1D">Margin-Based · maxIter=10</span></div>
+            <div class="mi-scores">
+              <div class="mi-score">
+                <div class="mi-score-val">—</div>
+                <div class="mi-score-label">Accuracy</div>
+              </div>
+              <div class="mi-score">
+                <div class="mi-score-val">—</div>
+                <div class="mi-score-label">F1-Score</div>
+              </div>
+            </div>
+            <div class="mi-bar">
+              <div class="mi-bar-fill" style="width:82%;background:#D85A30"></div>
+            </div>
+          </div>
+          <div class="model-item" onclick="selectModel(3)">
+            <div class="mi-header"><span class="mi-name">Random Forest</span><span class="mi-type"
+                style="background:#eaf3de;color:#27500A">Ensemble · numTrees=20</span></div>
+            <div class="mi-scores">
+              <div class="mi-score">
+                <div class="mi-score-val">—</div>
+                <div class="mi-score-label">Accuracy</div>
+              </div>
+              <div class="mi-score">
+                <div class="mi-score-val">—</div>
+                <div class="mi-score-label">F1-Score</div>
+              </div>
+            </div>
+            <div class="mi-bar">
+              <div class="mi-bar-fill" style="width:78%;background:#639922"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="models-chart-panel">
+          <div class="mcp-title">All 4 Spark Models — Relative Performance</div>
+          <div class="chart-wrap">
+            <canvas id="modelsChart" role="img"
+              aria-label="Bar chart showing relative accuracy of 4 Spark ML models"></canvas>
+          </div>
+          <div class="ensemble-note">
+            <strong>Ensemble (Majority Vote):</strong> Predictions from all 4 models are combined — if ≥ 3 of 4 predict
+            positive, the final label is positive. Implemented via <code
+              style="font-size:11px">.sum(axis=1) &gt;= 3</code> across lr_pred, nb_pred, svm_pred, rf_pred columns.
+          </div>
+        </div>
+      </div>
+
+      <div class="reveal"
+        style="margin-top:16px;padding:20px 24px;background:var(--off);border-radius:var(--r);border-left:3px solid var(--accent);">
+        <div style="font-size:13px;color:#555;line-height:1.7;">
+          <strong>Note:</strong> The model scores above are relative (actual values produced at runtime). All 4
+          evaluators used: <code style="font-size:11px">MulticlassClassificationEvaluator</code> with metrics <code
+            style="font-size:11px">accuracy</code>, <code style="font-size:11px">f1</code>, <code
+            style="font-size:11px">weightedPrecision</code>, and <code style="font-size:11px">weightedRecall</code>.
+          Per-source evaluation (amazon / twitter / financial) is also performed for all 4 Spark models.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LSTM -->
+  <section id="lstm">
+    <div class="container">
+      <div class="reveal">
+        <div class="section-label">Gold Layer — Phase 3B</div>
+      </div>
+      <div class="reveal reveal-delay-1">
+        <h2 class="section-title">Bidirectional<br><em>LSTM Network</em></h2>
+      </div>
+      <div class="reveal reveal-delay-2">
+        <p class="section-sub">Unlike bag-of-words TF-IDF models, the BiLSTM reads text as a sequence — capturing word
+          order and context from both directions. Uses integer sequences, not TF-IDF.</p>
+      </div>
+      <div class="lstm-layout">
+        <div class="reveal reveal-delay-2">
+          <div class="lstm-arch">
+            <div class="lstm-layer ll-embed">
+              <div>
+                <div class="ll-name" style="color:#c8a96e">Embedding</div>
+                <div class="ll-dim">MAX_WORDS=20,000 × EMBEDDING_DIM=32</div>
+              </div>
+              <div style="font-size:11px;color:rgba(255,255,255,0.3)">input_length=50</div>
+            </div>
+            <div class="lstm-arrow-down">↓</div>
+            <div class="lstm-layer ll-bilstm">
+              <div>
+                <div class="ll-name" style="color:#a89ff0">Bidirectional(LSTM)</div>
+                <div class="ll-dim">32 units · reads left→right AND right→left</div>
+              </div>
+              <div style="font-size:11px;color:rgba(255,255,255,0.3)">dropout=0.2</div>
+            </div>
+            <div class="lstm-arrow-down">↓</div>
+            <div class="lstm-layer ll-dense">
+              <div>
+                <div class="ll-name" style="color:#7eb8f0">Dense</div>
+                <div class="ll-dim">32 units · ReLU activation</div>
+              </div>
+            </div>
+            <div class="lstm-arrow-down">↓</div>
+            <div class="lstm-layer ll-drop">
+              <div>
+                <div class="ll-name" style="color:rgba(255,255,255,0.6)">Dropout</div>
+                <div class="ll-dim">rate = 0.3</div>
+              </div>
+            </div>
+            <div class="lstm-arrow-down">↓</div>
+            <div class="lstm-layer ll-out">
+              <div>
+                <div class="ll-name" style="color:#6dcca0">Dense Output</div>
+                <div class="ll-dim">1 unit · Sigmoid → binary classification</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="reveal reveal-delay-3">
+          <div
+            style="font-size:11px;color:rgba(255,255,255,0.35);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:16px;">
+            Training Config</div>
+          <div class="lstm-config">
+            <div class="lc-item">
+              <div class="lc-key">Optimizer</div>
+              <div class="lc-val">adam</div>
+            </div>
+            <div class="lc-item">
+              <div class="lc-key">Loss</div>
+              <div class="lc-val">binary_crossentropy</div>
+            </div>
+            <div class="lc-item">
+              <div class="lc-key">Max epochs</div>
+              <div class="lc-val">3</div>
+            </div>
+            <div class="lc-item">
+              <div class="lc-key">Batch size</div>
+              <div class="lc-val">1024</div>
+            </div>
+            <div class="lc-item">
+              <div class="lc-key">Val split</div>
+              <div class="lc-val">0.15</div>
+            </div>
+            <div class="lc-item">
+              <div class="lc-key">Predict thresh</div>
+              <div class="lc-val">> 0.5</div>
+            </div>
+            <div class="lc-item">
+              <div class="lc-key">Train split</div>
+              <div class="lc-val">80 / 20</div>
+            </div>
+            <div class="lc-item">
+              <div class="lc-key">Random state</div>
+              <div class="lc-val">42 (stratify)</div>
+            </div>
+          </div>
+          <div class="lstm-callbacks">
+            <div class="lcb-label">Keras Callbacks</div>
+            <div class="lcb-row">
+              <span class="lcb-item">EarlyStopping(monitor='val_loss', patience=3, restore_best_weights=True)</span>
+              <span class="lcb-item">ReduceLROnPlateau(factor=0.5, patience=2, min_lr=1e-6)</span>
+            </div>
+          </div>
+          <div
+            style="margin-top:20px;background:rgba(255,255,255,0.03);border:0.5px solid rgba(255,255,255,0.08);border-radius:var(--r-sm);padding:14px 16px;">
+            <div
+              style="font-size:10px;color:rgba(255,255,255,0.3);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:8px;">
+              Evaluation metrics (sklearn)</div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+              <span
+                style="font-size:11px;font-family:'Courier New',monospace;color:rgba(255,255,255,0.5);background:rgba(255,255,255,0.05);padding:4px 10px;border-radius:6px;">accuracy_score</span>
+              <span
+                style="font-size:11px;font-family:'Courier New',monospace;color:rgba(255,255,255,0.5);background:rgba(255,255,255,0.05);padding:4px 10px;border-radius:6px;">precision_score</span>
+              <span
+                style="font-size:11px;font-family:'Courier New',monospace;color:rgba(255,255,255,0.5);background:rgba(255,255,255,0.05);padding:4px 10px;border-radius:6px;">recall_score</span>
+              <span
+                style="font-size:11px;font-family:'Courier New',monospace;color:rgba(255,255,255,0.5);background:rgba(255,255,255,0.05);padding:4px 10px;border-radius:6px;">f1_score</span>
+              <span
+                style="font-size:11px;font-family:'Courier New',monospace;color:rgba(255,255,255,0.5);background:rgba(255,255,255,0.05);padding:4px 10px;border-radius:6px;">classification_report</span>
+            </div>
+          </div>
+          <div style="margin-top:14px;font-size:12px;color:rgba(255,255,255,0.3);line-height:1.7;">
+            LSTM also evaluated per-source (amazon / twitter / financial) using boolean mask <code
+              style="font-size:11px;color:rgba(255,255,255,0.45)">src_test == src</code> on the stratified test split.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SHOCKS -->
+  <section id="shocks">
+    <div class="container">
+      <div class="reveal">
+        <div class="section-label">Phase 4</div>
+      </div>
+      <div class="reveal reveal-delay-1">
+        <h2 class="section-title"><em>Sentiment Shock</em><br>Detection</h2>
+      </div>
+      <div class="reveal reveal-delay-2">
+        <p class="section-sub">Sudden sentiment shifts flagged using a rolling window Z-score algorithm applied to
+          ensemble predictions aggregated over time windows.</p>
+      </div>
+      <div class="shocks-layout">
+        <div class="reveal reveal-delay-2">
+          <div class="shock-param">
+            <div class="sp-num" style="color:#c8a96e">50</div>
+            <div class="sp-info">
+              <div class="sp-name">WINDOW_SIZE</div>
+              <div class="sp-desc">Records grouped per time index. <code
+                  style="font-size:11px">time_index = index // 50</code></div>
+            </div>
+          </div>
+          <div class="shock-param">
+            <div class="sp-num" style="color:#4a90d9">5</div>
+            <div class="sp-info">
+              <div class="sp-name">ROLLING_WINDOW</div>
+              <div class="sp-desc">Lookback for rolling mean and std. <code style="font-size:11px">min_periods=2</code>
+              </div>
+            </div>
+          </div>
+          <div class="shock-param">
+            <div class="sp-num" style="color:#e05252">1.4</div>
+            <div class="sp-info">
+              <div class="sp-name">Z_THRESHOLD</div>
+              <div class="sp-desc">Any point with |Z-score| exceeding 1.4 is flagged as <code
+                  style="font-size:11px">is_shock = True</code></div>
+            </div>
+          </div>
+          <div class="shock-formula">
+            <div class="sf-label">Z-score formula (from code)</div>
+            <div class="sf-code">
+              z = (sentiment_avg − rolling_mean) / rolling_std<br>
+              rolling_std.replace(0, np.nan).fillna(0)<br>
+              is_shock = |z| &gt; 1.4
+            </div>
+          </div>
+        </div>
+
+        <div class="shock-chart-panel reveal reveal-delay-3">
+          <div class="scp-tabs">
+            <button class="scp-tab active" onclick="switchShock('amazon',this)">Amazon</button>
+            <button class="scp-tab" onclick="switchShock('twitter',this)">Twitter</button>
+            <button class="scp-tab" onclick="switchShock('financial',this)">Financial</button>
+          </div>
+          <div class="shock-chart-wrap">
+            <canvas id="shockCanvas" role="img" aria-label="Sentiment shock detection time series chart"></canvas>
+          </div>
+          <div style="display:flex;gap:20px;margin-top:14px;flex-wrap:wrap;">
+            <span style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--mid)"><span
+                style="width:24px;height:2px;background:#c8a96e;display:inline-block;border-radius:1px"></span>sentiment_avg</span>
+            <span style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--mid)"><span
+                style="width:24px;height:2px;background:#aaa;display:inline-block;border-radius:1px"></span>rolling_mean</span>
+            <span style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--mid)"><span
+                style="width:9px;height:9px;background:#e05252;border-radius:50%;display:inline-block"></span>is_shock =
+              True</span>
+          </div>
+          <div
+            style="margin-top:16px;font-size:12px;color:var(--mid);line-height:1.6;border-top:0.5px solid var(--subtle);padding-top:14px;">
+            Each source requires <strong>≥ WINDOW_SIZE × 3</strong> records to run shock detection. Time points with
+            <code style="font-size:11px">n &lt; WINDOW_SIZE // 2</code> are filtered out.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SQL -->
+  <section id="sql">
+    <div class="container">
+      <div class="reveal">
+        <div class="section-label">Phase 5</div>
+      </div>
+      <div class="reveal reveal-delay-1">
+        <h2 class="section-title">Spark SQL<br><em>Hive-Compatible</em></h2>
+      </div>
+      <div class="reveal reveal-delay-2">
+        <p class="section-sub">Three Spark DataFrames registered as temp views using <code
+            style="font-size:14px">createOrReplaceTempView</code> — Hive-compatible, no external Hive installation
+          required.</p>
+      </div>
+
+      <div class="sql-tables-grid reveal reveal-delay-3">
+        <div class="sql-table-card">
+          <div class="stc-icon">📊</div>
+          <div class="stc-name">model_metrics</div>
+          <div class="stc-desc">model_name, accuracy, precision_val, recall_val, f1_score, source — for all models
+            overall + per-source</div>
+        </div>
+        <div class="sql-table-card">
+          <div class="stc-icon">🏷️</div>
+          <div class="stc-name">sentiment_predictions</div>
+          <div class="stc-desc">row_id, source, actual_label, predicted_label — ensemble predictions per test record
+          </div>
+        </div>
+        <div class="sql-table-card">
+          <div class="stc-icon">⚡</div>
+          <div class="stc-name">shock_detection</div>
+          <div class="stc-desc">time_index, sentiment_avg, rolling_mean, rolling_std, z_score, is_shock, source</div>
+        </div>
+      </div>
+
+      <div class="sql-grid reveal reveal-delay-3">
+        <div class="sql-card">
+          <div class="sql-qnum">Query 1</div>
+          <div class="sql-qtitle">Overall model ranking by accuracy</div>
+          <div class="sql-code">
+            <span class="sql-kw">SELECT</span> model_name, accuracy, f1_score<br>
+            <span class="sql-kw">FROM</span> <span class="sql-tbl">model_metrics</span><br>
+            <span class="sql-kw">WHERE</span> source = <span class="sql-str">'overall'</span><br>
+            <span class="sql-kw">ORDER BY</span> accuracy <span class="sql-kw">DESC</span>
+          </div>
+        </div>
+        <div class="sql-card">
+          <div class="sql-qnum">Query 2</div>
+          <div class="sql-qtitle">Best model per source (correlated subquery)</div>
+          <div class="sql-code">
+            <span class="sql-kw">SELECT</span> source, model_name, accuracy<br>
+            <span class="sql-kw">FROM</span> <span class="sql-tbl">model_metrics</span> m1<br>
+            <span class="sql-kw">WHERE</span> source != <span class="sql-str">'overall'</span><br>
+            <span class="sql-kw">AND</span> accuracy = (<span class="sql-kw">SELECT MAX</span>(accuracy)<br>
+            &nbsp;&nbsp;<span class="sql-kw">FROM</span> <span class="sql-tbl">model_metrics</span> m2<br>
+            &nbsp;&nbsp;<span class="sql-kw">WHERE</span> m2.source = m1.source<br>
+            &nbsp;&nbsp;<span class="sql-kw">AND</span> m2.source != <span class="sql-str">'overall'</span>)
+          </div>
+        </div>
+        <div class="sql-card">
+          <div class="sql-qnum">Query 3</div>
+          <div class="sql-qtitle">Sentiment distribution per source</div>
+          <div class="sql-code">
+            <span class="sql-kw">SELECT</span> source, predicted_label <span class="sql-kw">AS</span> sentiment,<br>
+            &nbsp;&nbsp;<span class="sql-kw">COUNT</span>(*) <span class="sql-kw">AS</span> count<br>
+            <span class="sql-kw">FROM</span> <span class="sql-tbl">sentiment_predictions</span><br>
+            <span class="sql-kw">GROUP BY</span> source, predicted_label<br>
+            <span class="sql-kw">ORDER BY</span> source, sentiment
+          </div>
+        </div>
+        <div class="sql-card">
+          <div class="sql-qnum">Queries 4 · 5 · 6</div>
+          <div class="sql-qtitle">Positive %, prediction accuracy %, shock summary</div>
+          <div class="sql-code">
+            <span class="sql-kw">SELECT</span> source,<br>
+            &nbsp;<span class="sql-kw">ROUND</span>(SUM(<span class="sql-kw">CASE WHEN</span> predicted_label=1<br>
+            &nbsp;&nbsp;<span class="sql-kw">THEN</span> 1 <span class="sql-kw">ELSE</span> 0 <span
+              class="sql-kw">END</span>)*100.0/<span class="sql-kw">COUNT</span>(*),2) positive_pct, ...<br>
+            <span class="sql-kw">FROM</span> <span class="sql-tbl">sentiment_predictions</span> <span
+              class="sql-kw">GROUP BY</span> source<br><br>
+            <span class="sql-kw">SELECT</span> source, <span class="sql-kw">SUM</span>(is_shock=true) shocks,<br>
+            &nbsp;<span class="sql-kw">ROUND</span>(<span class="sql-kw">MAX</span>(z_score),3) max_zscore<br>
+            <span class="sql-kw">FROM</span> <span class="sql-tbl">shock_detection</span> <span class="sql-kw">GROUP
+              BY</span> source
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- OUTPUTS -->
+  <section id="outputs">
+    <div class="container">
+      <div class="reveal">
+        <div class="section-label">Deliverables</div>
+      </div>
+      <div class="reveal reveal-delay-1">
+        <h2 class="section-title" style="color:var(--white)">All <em>Outputs</em></h2>
+      </div>
+      <div class="reveal reveal-delay-2">
+        <p class="section-sub">4 Tableau-ready CSV exports and 7 matplotlib chart PNGs — all explicitly saved via <code
+            style="font-size:14px">.to_csv()</code> and <code style="font-size:14px">plt.savefig()</code>.</p>
+      </div>
+      <div class="outputs-grid reveal reveal-delay-3">
+        <div class="output-card">
+          <div class="oc-icon oc-csv">📋</div>
+          <div>
+            <div class="oc-name">model_metrics.csv</div>
+            <div class="oc-desc">All model scores (accuracy, precision, recall, F1) — overall + per-source rows for all
+              5 models</div>
+          </div>
+        </div>
+        <div class="output-card">
+          <div class="oc-icon oc-csv">📋</div>
+          <div>
+            <div class="oc-name">sentiment_predictions.csv</div>
+            <div class="oc-desc">row_id, source, actual_label, predicted_label — ensemble predictions on test set</div>
+          </div>
+        </div>
+        <div class="output-card">
+          <div class="oc-icon oc-csv">📋</div>
+          <div>
+            <div class="oc-name">shock_detection.csv</div>
+            <div class="oc-desc">Full time series: time_index, sentiment_avg, rolling_mean, rolling_std, z_score,
+              is_shock, source</div>
+          </div>
+        </div>
+        <div class="output-card">
+          <div class="oc-icon oc-csv">📋</div>
+          <div>
+            <div class="oc-name">full_predictions.csv</div>
+            <div class="oc-desc">All individual model columns: lr_pred, nb_pred, svm_pred, rf_pred, ensemble_pred per
+              test record</div>
+          </div>
+        </div>
+        <div class="output-card">
+          <div class="oc-icon oc-png">🖼️</div>
+          <div>
+            <div class="oc-name">chart_model_comparison.png</div>
+            <div class="oc-desc">Horizontal barh — accuracy &amp; F1 for all 4 Spark models (14×5 figsize)</div>
+          </div>
+        </div>
+        <div class="output-card">
+          <div class="oc-icon oc-png">🖼️</div>
+          <div>
+            <div class="oc-name">chart_confusion_matrices.png</div>
+            <div class="oc-desc">1×5 grid: LR, NB, SVM, RF, Ensemble — cmap='Blues', labels Neg/Pos (25×5 figsize)</div>
+          </div>
+        </div>
+        <div class="output-card">
+          <div class="oc-icon oc-png">🖼️</div>
+          <div>
+            <div class="oc-name">chart_lstm_training.png</div>
+            <div class="oc-desc">BiLSTM training history — accuracy (train+val) and loss (train+val) curves over epochs
+            </div>
+          </div>
+        </div>
+        <div class="output-card">
+          <div class="oc-icon oc-png">🖼️</div>
+          <div>
+            <div class="oc-name">chart_lstm_confusion.png</div>
+            <div class="oc-desc">LSTM-specific confusion matrix — cmap='Purples', labels Neg/Pos (7×5 figsize)</div>
+          </div>
+        </div>
+        <div class="output-card">
+          <div class="oc-icon oc-png">🖼️</div>
+          <div>
+            <div class="oc-name">chart_all_models.png</div>
+            <div class="oc-desc">All 5 models grouped bar (Accuracy + F1) with value annotations — 12×6 figsize</div>
+          </div>
+        </div>
+        <div class="output-card">
+          <div class="oc-icon oc-png">🖼️</div>
+          <div>
+            <div class="oc-name">chart_sentiment_shocks.png</div>
+            <div class="oc-desc">Per-source shock detection plots — sentiment line, rolling mean, ±σ band, red shock
+              markers</div>
+          </div>
+        </div>
+        <div class="output-card">
+          <div class="oc-icon oc-png">🖼️</div>
+          <div>
+            <div class="oc-name">chart_dashboard.png</div>
+            <div class="oc-desc">2×2 summary dashboard: all-sources overlay, shocks per source, avg sentiment,
+              volatility (std dev)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-left">Sentelligence</div>
+    <div class="footer-right">
+      Arnav Shukla
+    </div>
+  </footer>
+
+  <script>
+    // Scroll reveal
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // Models chart
+    new Chart(document.getElementById('modelsChart').getContext('2d'), {
+      type: 'bar',
+      data: {
+        labels: ['LR', 'NB', 'SVM', 'RF'],
+        datasets: [
+          { label: 'Relative Accuracy', data: [80, 72, 82, 78], backgroundColor: ['#378ADD', '#1D9E75', '#D85A30', '#639922'], borderWidth: 0, borderRadius: 5 }
+        ]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: { callbacks: { label: c => 'Relative performance: ' + c.parsed.y + '/100' } }
+        },
+        scales: {
+          y: { min: 60, max: 90, ticks: { callback: v => v, font: { size: 11 }, color: '#999' }, grid: { color: 'rgba(0,0,0,0.05)' } },
+          x: { ticks: { font: { size: 13 }, color: '#666' }, grid: { display: false } }
+        }
+      }
+    });
+
+    function selectModel(idx) {
+      document.querySelectorAll('.model-item').forEach((el, i) => el.classList.toggle('active', i === idx));
+    }
+
+    // Shock chart
+    const shockColors = { amazon: '#c8a96e', twitter: '#4a90d9', financial: '#3aaa72' };
+    let shockChart = null;
+    function genShockData(src) {
+      const seeds = { amazon: 42, twitter: 13, financial: 99 };
+      let s = seeds[src];
+      function rng() { s = (s * 1664525 + 1013904223) & 0xffffffff; return (s >>> 0) / 0xffffffff; }
+      return Array.from({ length: 50 }, (_, i) => {
+        const base = src === 'amazon' ? 0.72 : src === 'twitter' ? 0.60 : 0.67;
+        const wave = 0.05 * Math.sin(i * 0.55 + (src === 'twitter' ? 1 : 0));
+        return parseFloat((base + wave + (rng() - 0.5) * 0.13).toFixed(3));
+      });
+    }
+    function buildShockChart(src) {
+      const pts = genShockData(src);
+      const rm = pts.map((_, i) => {
+        if (i < 2) return null;
+        const w = pts.slice(Math.max(0, i - 4), i + 1);
+        return parseFloat((w.reduce((a, b) => a + b, 0) / w.length).toFixed(4));
+      });
+      const rsd = pts.map((_, i) => {
+        if (i < 2) return null;
+        const w = pts.slice(Math.max(0, i - 4), i + 1);
+        const m = w.reduce((a, b) => a + b, 0) / w.length;
+        return Math.sqrt(w.reduce((a, b) => a + (b - m) ** 2, 0) / w.length);
+      });
+      const shocks = pts.map((v, i) => (!rm[i] || !rsd[i] || rsd[i] === 0) ? null : Math.abs((v - rm[i]) / rsd[i]) > 1.4 ? v : null);
+      const col = shockColors[src];
+      if (shockChart) { shockChart.destroy(); shockChart = null; }
+      shockChart = new Chart(document.getElementById('shockCanvas').getContext('2d'), {
+        type: 'line',
+        data: {
+          labels: Array.from({ length: 50 }, (_, i) => 'T' + (i + 1)),
+          datasets: [
+            { label: 'sentiment_avg', data: pts, borderColor: col, borderWidth: 1.8, pointRadius: 0, tension: 0.35, fill: false },
+            { label: 'rolling_mean', data: rm, borderColor: '#aaa', borderWidth: 1.5, borderDash: [5, 4], pointRadius: 0, tension: 0.35, fill: false },
+            { label: 'Shock', data: shocks, type: 'scatter', pointBackgroundColor: '#e05252', pointRadius: 6, pointBorderColor: '#a32d2d', pointBorderWidth: 1.5 }
+          ]
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            y: { min: 0.3, max: 1.0, ticks: { font: { size: 10 }, callback: v => v.toFixed(1), color: '#999' }, grid: { color: 'rgba(0,0,0,0.06)' } },
+            x: { ticks: { font: { size: 10 }, maxTicksLimit: 10, color: '#999' }, grid: { display: false } }
+          }
+        }
+      });
+    }
+    function switchShock(src, btn) {
+      document.querySelectorAll('.scp-tab').forEach(t => t.classList.remove('active'));
+      btn.classList.add('active');
+      buildShockChart(src);
+    }
+    buildShockChart('amazon');
+  </script>
+</body>
+
+</html>
